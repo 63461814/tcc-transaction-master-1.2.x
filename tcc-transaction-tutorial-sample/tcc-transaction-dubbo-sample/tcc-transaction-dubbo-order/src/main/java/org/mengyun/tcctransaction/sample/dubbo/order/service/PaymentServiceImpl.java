@@ -32,7 +32,13 @@ public class PaymentServiceImpl {
     @Autowired
     OrderRepository orderRepository;
 
-    // Order - 全局事务
+    /**
+     * Order - 全局事务
+     *
+     * @param order
+     * @param redPacketPayAmount
+     * @param capitalPayAmount
+     */
     @Compensable(confirmMethod = "confirmMakePayment", cancelMethod = "cancelMakePayment", asyncConfirm = true)
     public void makePayment(Order order, BigDecimal redPacketPayAmount, BigDecimal capitalPayAmount) {
         System.out.println("order try make payment called.time seq:" + DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
@@ -51,10 +57,11 @@ public class PaymentServiceImpl {
 
         // 看以下是否有隐式参数
         Map<String, String> attachments = RpcContext.getContext().getAttachments();
-        for(String key : attachments.keySet()){
-            System.out.println("PaymentServiceImpl makePayment key="+key + " , value="+attachments.get(key));
+        for (String key : attachments.keySet()) {
+            System.out.println("PaymentServiceImpl makePayment key=" + key + " , value=" + attachments.get(key));
         }
 
+        // 主事务的业务都已经实现的差不多的时候才调用子事务
         String result = capitalTradeOrderService.record(buildCapitalTradeOrderDto(order));
         String result2 = redPacketTradeOrderService.record(buildRedPacketTradeOrderDto(order));
     }

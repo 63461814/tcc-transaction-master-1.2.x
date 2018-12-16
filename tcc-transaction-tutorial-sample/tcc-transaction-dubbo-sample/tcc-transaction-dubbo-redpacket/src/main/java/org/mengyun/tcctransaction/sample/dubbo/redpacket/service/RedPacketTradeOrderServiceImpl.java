@@ -30,6 +30,12 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
     @Autowired
     TradeOrderRepository tradeOrderRepository;
 
+    /**
+     * 分布式事务
+     *
+     * @param tradeOrderDto
+     * @return
+     */
     @Override
     @Compensable(confirmMethod = "confirmRecord", cancelMethod = "cancelRecord", transactionContextEditor = DubboTransactionContextEditor.class)
     @Transactional
@@ -43,8 +49,8 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
 
         // 看以下是否有隐式参数
         Map<String, String> attachments = RpcContext.getContext().getAttachments();
-        for(String key : attachments.keySet()){
-            System.out.println("RedPacketTradeOrderServiceImpl record key="+key + " , value="+attachments.get(key));
+        for (String key : attachments.keySet()) {
+            System.out.println("RedPacketTradeOrderServiceImpl record key=" + key + " , value=" + attachments.get(key));
         }
 
         System.out.println("red packet try record called. time seq:" + DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
@@ -92,6 +98,7 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 
         //check if the trade order status is DRAFT, if yes, return directly, ensure idempotency.
+        //草稿状态转为confirm状态
         if (tradeOrder != null && tradeOrder.getStatus().equals("DRAFT")) {
             tradeOrder.confirm();
             tradeOrderRepository.update(tradeOrder);

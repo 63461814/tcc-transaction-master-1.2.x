@@ -8,6 +8,7 @@ import org.mengyun.tcctransaction.sample.dubbo.redpacket.api.dto.RedPacketTradeO
  */
 public interface RedPacketTradeOrderService {
 
+    // tcc 注解
     @Compensable
     public String record(RedPacketTradeOrderDto tradeOrderDto);
 }
