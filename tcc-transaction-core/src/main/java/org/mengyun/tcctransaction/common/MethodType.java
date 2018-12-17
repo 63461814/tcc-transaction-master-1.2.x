@@ -7,5 +7,5 @@ public enum  MethodType {
     ROOT,
     CONSUMER,
     PROVIDER,
-    NORMAL;
+    NORMAL
 }

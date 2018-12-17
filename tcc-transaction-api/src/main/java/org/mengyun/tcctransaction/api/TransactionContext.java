@@ -10,8 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TransactionContext implements Serializable {
 
     private static final long serialVersionUID = -8199390103169700387L;
+    // 事务编号
     private TransactionXid xid;
-
+    // 事务状态
     private int status;
 
     // 保存当前事务有几个子事务
@@ -51,6 +52,5 @@ public class TransactionContext implements Serializable {
     public int getStatus() {
         return status;
     }
-
 
 }

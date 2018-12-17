@@ -152,13 +152,11 @@ public class TransactionManager {
         return transactions != null && !transactions.isEmpty();
     }
 
-
+    // 注册事务
     private void registerTransaction(Transaction transaction) {
-
         if (CURRENT.get() == null) {
             CURRENT.set(new LinkedList<Transaction>());
         }
-
         CURRENT.get().push(transaction);
     }
 
@@ -172,7 +170,6 @@ public class TransactionManager {
             }
         }
     }
-
 
     public void enlistParticipant(Participant participant) {
         Transaction transaction = this.getCurrentTransaction();

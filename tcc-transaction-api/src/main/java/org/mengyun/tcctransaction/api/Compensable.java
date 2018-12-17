@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 @Target({ElementType.METHOD})
 public @interface Compensable {
 
+    // 事务的传播级别
     public Propagation propagation() default Propagation.REQUIRED;
 
     public String confirmMethod() default "";

@@ -55,7 +55,6 @@ public class CompensableTransactionInterceptor {
         // 获取事务上下文
         TransactionContext transactionContext = FactoryBuilder.factoryOf(compensable.transactionContextEditor()).getInstance().get(pjp.getTarget(), method, pjp.getArgs());
 
-        //
         boolean asyncConfirm = compensable.asyncConfirm();
 
         boolean asyncCancel = compensable.asyncCancel();
@@ -108,12 +107,9 @@ public class CompensableTransactionInterceptor {
             try {
                 // 执行目标方法
                 returnValue = pjp.proceed();
-
                 // 如果抛出异常
             } catch (Throwable tryingException) {
-
                 if (!isDelayCancelException(tryingException)) {
-                   
                     logger.warn(String.format("compensable transaction trying failed. transaction content:%s", JSON.toJSONString(transaction)), tryingException);
                     /*
                         1、修改数据库状态

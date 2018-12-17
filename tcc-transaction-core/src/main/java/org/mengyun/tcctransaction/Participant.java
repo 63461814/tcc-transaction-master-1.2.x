@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * Created by changmingxie on 10/27/15.
+ * 事务对象
  */
 public class Participant implements Serializable {
 

@@ -2,13 +2,11 @@
 	1、重点不是讲事务 -> 慕课网的其他课程【JDBC事务，Spring事务】
 	2、事务如何做分布式
 
-
 1、tcc-transaction-dubbo
 	1.1 字节码代理 -> 创建接口的代理对象
 	1.2 DubboTransactionContextEditor -> TRANSACTION_CONTEXT[标识事务状态]
 				利用Dubbo的隐式参数来传递关键的非业务数据
-				
-				
+
 2、tcc-transaction-spring
 	封装了一些关键的Spring组件
 
@@ -29,7 +27,7 @@
 		
 	5.2 ResourceCoordinatorInterceptor
 			5.2.1 主要处理try阶段的事情
-			5.2.2	在try阶段，就将所有的"资源"封装完成并交给事务管理器
+			5.2.2 在try阶段，就将所有的"资源"封装完成并交给事务管理器
 			5.2.3 资源 -》 事务资源
 							事务的参与者
 									1、Confirm上下文
@@ -40,9 +38,9 @@
 	
 6、小结：
 	6.1 事务的相关信息【全局事务编号，乐观锁版本等要持久化存储】
-	6.2 资源：*
+	6.2 资源：* 重要
 				TCC 【try-confirm-cancel】
 					try核心点： 预留业务资源
-										  把事务数据资源存入库中
+								把事务数据资源存入库中
 	6.3 流程：
 			6.3.1 注册和初始化事务 -> 组织事务参与者 -> 执行目标try方法 -> 执行confirm和cancel方法
